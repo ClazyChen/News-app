@@ -40,6 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/Marked" 
+            android:onClick="onNewsButtonClick"
             style="?android:attr/buttonBarButtonStyle"/>
 
         <HorizontalScrollView
@@ -57,7 +58,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/Recommended" 
-                    android:onClick="onNewsButtonClick"
+                    android:onClick="onRecommendButtonClick"
                     style="?android:attr/buttonBarButtonStyle"/>
 
                 <Button

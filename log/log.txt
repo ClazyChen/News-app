@@ -1,45 +1,74 @@
-09-09 16:32:22.197: I/art(2089): Background sticky concurrent mark sweep GC freed 6186(320KB) AllocSpace objects, 0(0B) LOS objects, 32% free, 1431KB/2MB, paused 1.596ms total 240.271ms
-09-09 16:32:23.302: I/Choreographer(2089): Skipped 62 frames!  The application may be doing too much work on its main thread.
-09-09 16:32:25.433: W/art(2089): Suspending all threads took: 77.257ms
-09-09 16:32:25.436: I/art(2089): Background sticky concurrent mark sweep GC freed 3829(241KB) AllocSpace objects, 0(0B) LOS objects, 12% free, 1860KB/2MB, paused 77.923ms total 112.225ms
-09-09 16:32:25.524: W/art(2089): Suspending all threads took: 7.665ms
-09-09 16:32:25.525: I/art(2089): Background sticky concurrent mark sweep GC freed 7546(240KB) AllocSpace objects, 0(0B) LOS objects, 0% free, 2MB/2MB, paused 8.279ms total 61.452ms
-09-09 16:32:26.240: D/20(2089): http://ent.qq.com/movie/rss_movie.xml
-09-09 16:32:26.490: I/Choreographer(2089): Skipped 190 frames!  The application may be doing too much work on its main thread.
-09-09 16:32:27.060: D/20(2089): http://ent.qq.com/tv/rss_tv.xml
-09-09 16:32:27.300: I/art(2089): Background sticky concurrent mark sweep GC freed 3685(138KB) AllocSpace objects, 0(0B) LOS objects, 2% free, 3MB/3MB, paused 18.502ms total 35.102ms
-09-09 16:32:27.985: D/20(2089): http://ent.qq.com/m_news/rss_yinyue.xml
-09-09 16:32:28.752: I/art(2089): Background sticky concurrent mark sweep GC freed 26238(983KB) AllocSpace objects, 0(0B) LOS objects, 24% free, 2MB/3MB, paused 35.673ms total 40.146ms
-09-09 16:32:28.917: D/20(2089): http://finance.qq.com/financenews/domestic/rss_domestic.xml
-09-09 16:32:29.046: I/Choreographer(2089): Skipped 152 frames!  The application may be doing too much work on its main thread.
-09-09 16:32:29.048: D/gralloc_ranchu(2089): Emulator without host-side GPU emulation detected. Loading gralloc.default.so from /vendor/lib64/hw/gralloc.default.so...
-09-09 16:32:29.048: D/gralloc_ranchu(2089): gralloc.default.so not found in /vendor. Trying /system/lib64/hw/gralloc.default.so...
-09-09 16:32:29.655: D/20(2089): http://finance.qq.com/financenews/international/rss_international.xml
-09-09 16:32:30.414: D/20(2089): http://finance.qq.com/financenews/jinrongshichang/rss_jinrongshichang.xml
-09-09 16:32:31.126: D/20(2089): http://finance.qq.com/money/rss_money.xml
-09-09 16:32:32.352: D/20(2089): http://sports.qq.com/basket/nba/nbarep/rss_nbarep.xml
-09-09 16:32:33.222: D/20(2089): http://sports.qq.com/basket/bskb/cba/rss_cba.xml
-09-09 16:32:34.156: D/20(2089): http://sports.qq.com/isocce/yingc/rss_pl.xml
-09-09 16:32:35.001: I/art(2089): Background sticky concurrent mark sweep GC freed 30015(1125KB) AllocSpace objects, 0(0B) LOS objects, 27% free, 2MB/3MB, paused 22.846ms total 42.194ms
-09-09 16:32:35.133: D/20(2089): http://sports.qq.com/isocce/yijia/rss_sereasa.xml
-09-09 16:32:35.369: I/Choreographer(2089): Skipped 246 frames!  The application may be doing too much work on its main thread.
-09-09 16:32:36.533: D/20(2089): http://sports.qq.com/isocce/xijia/rss_laliga.xml
-09-09 16:32:37.317: D/20(2089): http://sports.qq.com/csocce/rss_csocce.xml
-09-09 16:32:38.116: D/20(2089): http://sports.qq.com/tennis/rss_tennis.xml
-09-09 16:32:38.719: D/20(2089): http://tech.qq.com/web/webnews/rss_11.xml
-09-09 16:32:39.254: D/20(2089): http://tech.qq.com/web/it/telerss.xml
-09-09 16:32:39.739: D/20(2089): http://tech.qq.com/web/tele/telexml.xml
-09-09 16:32:40.288: D/20(2089): http://tech.qq.com/web/Innovation/rss_cycx.xml
-09-09 16:32:40.963: D/20(2089): http://tech.qq.com/web/ydhl/ydhl.xml
-09-09 16:32:41.532: D/20(2089): http://tech.qq.com/web/dzsw/dzsw.xml
-09-09 16:32:42.139: D/20(2089): http://tech.qq.com/web/sjwl/sjwl.xml
-09-09 16:32:42.985: D/20(2089): http://tech.qq.com/web/gameol/onlinegame.xml
-09-09 16:32:44.075: D/20(2089): http://games.qq.com/ntgame/rss_ntgame.xml
-09-09 16:32:45.070: D/20(2089): http://games.qq.com/mobile/rss_mobile.xml
-09-09 16:32:45.995: D/20(2089): http://edu.qq.com/edunew/rss_edunew.xml
-09-09 16:32:46.830: D/20(2089): http://edu.qq.com/abroad/rss_abroad.xml
-09-09 16:34:05.964: E/AndroidRuntime(2089): FATAL EXCEPTION: Thread-112
-09-09 16:34:05.964: E/AndroidRuntime(2089): Process: com.clazy.example.myapplication, PID: 2089
-09-09 16:34:05.964: E/AndroidRuntime(2089): java.lang.NullPointerException: Attempt to invoke virtual method 'java.lang.String org.jsoup.nodes.Document.html()' on a null object reference
-09-09 16:34:05.964: E/AndroidRuntime(2089): 	at com.clazy.example.myapplication.MainActivity$5$1.run(MainActivity.java:286)
-09-09 16:34:05.964: E/AndroidRuntime(2089): 	at java.lang.Thread.run(Thread.java:818)
+09-09 19:43:34.821: W/ContextImpl(2044): Failed to ensure directory: /storage/sdcard/Android/data/com.clazy.example.myapplication/files
+09-09 19:43:35.073: I/art(2044): Background sticky concurrent mark sweep GC freed 10891(615KB) AllocSpace objects, 0(0B) LOS objects, 31% free, 1439KB/2MB, paused 751us total 135.488ms
+09-09 19:43:41.503: I/Choreographer(2044): Skipped 368 frames!  The application may be doing too much work on its main thread.
+09-09 19:43:41.508: D/gralloc_ranchu(2044): Emulator without host-side GPU emulation detected. Loading gralloc.default.so from /vendor/lib64/hw/gralloc.default.so...
+09-09 19:43:41.508: D/gralloc_ranchu(2044): gralloc.default.so not found in /vendor. Trying /system/lib64/hw/gralloc.default.so...
+09-09 19:43:46.585: W/ContextImpl(2044): Failed to ensure directory: /storage/sdcard/Android/data/com.clazy.example.myapplication/files
+09-09 19:43:46.960: D/20(2044): http://news.qq.com/newsgn/rss_newsgn.xml
+09-09 19:43:46.971: D/20(2044): http://games.qq.com/ntgame/rss_ntgame.xml
+09-09 19:43:46.997: D/20(2044): http://tech.qq.com/web/webnews/rss_11.xml
+09-09 19:43:47.005: D/20(2044): http://ent.qq.com/movie/rss_movie.xml
+09-09 19:43:47.013: D/20(2044): http://sports.qq.com/basket/nba/nbarep/rss_nbarep.xml
+09-09 19:43:47.117: D/20(2044): http://edu.qq.com/edunew/rss_edunew.xml
+09-09 19:43:47.130: D/20(2044): http://sports.qq.com/basket/bskb/cba/rss_cba.xml
+09-09 19:43:47.138: D/20(2044): http://finance.qq.com/financenews/domestic/rss_domestic.xml
+09-09 19:43:47.166: D/20(2044): http://ent.qq.com/tv/rss_tv.xml
+09-09 19:43:47.183: D/20(2044): http://games.qq.com/mobile/rss_mobile.xml
+09-09 19:43:47.327: D/20(2044): http://edu.qq.com/abroad/rss_abroad.xml
+09-09 19:43:47.342: D/20(2044): http://ent.qq.com/m_news/rss_yinyue.xml
+09-09 19:43:47.400: D/20(2044): http://finance.qq.com/financenews/international/rss_international.xml
+09-09 19:43:47.434: I/art(2044): Background sticky concurrent mark sweep GC freed 61283(1963KB) AllocSpace objects, 9(480KB) LOS objects, 0% free, 6MB/6MB, paused 1.233ms total 336.277ms
+09-09 19:43:47.498: D/20(2044): http://sports.qq.com/isocce/yingc/rss_pl.xml
+09-09 19:43:47.557: D/20(2044): http://finance.qq.com/financenews/jinrongshichang/rss_jinrongshichang.xml
+09-09 19:43:47.652: D/20(2044): http://sports.qq.com/isocce/yijia/rss_sereasa.xml
+09-09 19:43:47.735: I/art(2044): Background partial concurrent mark sweep GC freed 65744(2MB) AllocSpace objects, 40(2046KB) LOS objects, 40% free, 3MB/6MB, paused 1.004ms total 229.191ms
+09-09 19:43:47.771: D/20(2044): http://sports.qq.com/isocce/xijia/rss_laliga.xml
+09-09 19:43:47.777: D/20(2044): http://finance.qq.com/money/rss_money.xml
+09-09 19:43:48.034: D/20(2044): http://sports.qq.com/csocce/rss_csocce.xml
+09-09 19:43:48.198: D/20(2044): http://sports.qq.com/tennis/rss_tennis.xml
+09-09 19:43:48.274: I/art(2044): Background sticky concurrent mark sweep GC freed 68346(2MB) AllocSpace objects, 12(640KB) LOS objects, 32% free, 4MB/6MB, paused 611us total 158.601ms
+09-09 19:43:48.371: D/20(2044): http://tech.qq.com/web/it/telerss.xml
+09-09 19:43:48.376: D/20(2044): http://news.qq.com/newsgj/rss_newswj.xml
+09-09 19:43:48.525: D/20(2044): http://news.qq.com/newsgj/rss_newswj.xml
+09-09 19:43:48.609: D/20(2044): http://news.qq.com/milite/rss_milit.xml
+09-09 19:43:48.808: D/20(2044): http://tech.qq.com/web/tele/telexml.xml
+09-09 19:43:49.115: D/20(2044): http://tech.qq.com/web/Innovation/rss_cycx.xml
+09-09 19:43:49.383: D/20(2044): http://tech.qq.com/web/ydhl/ydhl.xml
+09-09 19:43:49.616: I/Choreographer(2044): Skipped 448 frames!  The application may be doing too much work on its main thread.
+09-09 19:43:49.729: D/20(2044): http://tech.qq.com/web/dzsw/dzsw.xml
+09-09 19:43:49.983: D/20(2044): http://tech.qq.com/web/sjwl/sjwl.xml
+09-09 19:43:50.246: D/20(2044): http://tech.qq.com/web/gameol/onlinegame.xml
+09-09 19:43:53.392: W/IInputConnectionWrapper(2044): getTextBeforeCursor on inactive InputConnection
+09-09 19:43:53.393: W/IInputConnectionWrapper(2044): requestCursorAnchorInfo on inactive InputConnection
+09-09 19:43:53.393: I/Choreographer(2044): Skipped 226 frames!  The application may be doing too much work on its main thread.
+09-09 19:43:53.409: W/IInputConnectionWrapper(2044): getTextBeforeCursor on inactive InputConnection
+09-09 19:43:54.442: W/IInputConnectionWrapper(2044): getTextBeforeCursor on inactive InputConnection
+09-09 19:43:54.456: I/Choreographer(2044): Skipped 61 frames!  The application may be doing too much work on its main thread.
+09-09 19:43:56.203: W/IInputConnectionWrapper(2044): getTextBeforeCursor on inactive InputConnection
+09-09 19:44:11.118: D/Open(2044): https://sports.qq.com/a/20180910/002485.htm
+09-09 19:44:12.328: I/art(2044): Background sticky concurrent mark sweep GC freed 24175(906KB) AllocSpace objects, 0(0B) LOS objects, 7% free, 4MB/4MB, paused 894us total 148.786ms
+09-09 19:44:12.818: I/art(2044): Background sticky concurrent mark sweep GC freed 46741(1752KB) AllocSpace objects, 0(0B) LOS objects, 28% free, 4MB/6MB, paused 20.653ms total 41.505ms
+09-09 19:44:17.666: D/Open(2044): https://sports.qq.com/a/20180910/002388.htm
+09-09 19:44:21.357: W/IInputConnectionWrapper(2044): finishComposingText on inactive InputConnection
+09-09 19:44:28.096: D/Open(2044): https://news.qq.com/a/20180909/062680.htm
+09-09 19:44:39.539: D/Open(2044): https://finance.qq.com/a/20180909/059886.htm
+09-09 19:44:42.962: D/Open(2044): https://finance.qq.com/a/20180909/056195.htm
+09-09 19:44:45.567: D/Open(2044): https://finance.qq.com/a/20180909/053399.htm
+09-09 19:44:46.094: I/art(2044): Background sticky concurrent mark sweep GC freed 36486(1444KB) AllocSpace objects, 6(236KB) LOS objects, 17% free, 4MB/5MB, paused 528us total 149.204ms
+09-09 19:44:50.852: D/Open(2044): https://news.qq.com/a/20180909/062240.htm
+09-09 19:44:52.254: I/art(2044): Background sticky concurrent mark sweep GC freed 42122(1579KB) AllocSpace objects, 2(135KB) LOS objects, 19% free, 4MB/5MB, paused 1.005ms total 129.613ms
+09-09 19:44:52.696: D/AndroidRuntime(2044): Shutting down VM
+09-09 19:44:52.696: D/AndroidRuntime(2044): --------- beginning of crash
+09-09 19:44:52.696: E/AndroidRuntime(2044): FATAL EXCEPTION: main
+09-09 19:44:52.696: E/AndroidRuntime(2044): Process: com.clazy.example.myapplication, PID: 2044
+09-09 19:44:52.696: E/AndroidRuntime(2044): java.lang.NullPointerException: Attempt to invoke virtual method 'void android.widget.ListView.setDivider(android.graphics.drawable.Drawable)' on a null object reference
+09-09 19:44:52.696: E/AndroidRuntime(2044): 	at com.clazy.example.myapplication.MainActivity$7$1$1.run(MainActivity.java:457)
+09-09 19:44:52.696: E/AndroidRuntime(2044): 	at android.os.Handler.handleCallback(Handler.java:739)
+09-09 19:44:52.696: E/AndroidRuntime(2044): 	at android.os.Handler.dispatchMessage(Handler.java:95)
+09-09 19:44:52.696: E/AndroidRuntime(2044): 	at android.os.Looper.loop(Looper.java:135)
+09-09 19:44:52.696: E/AndroidRuntime(2044): 	at android.app.ActivityThread.main(ActivityThread.java:5221)
+09-09 19:44:52.696: E/AndroidRuntime(2044): 	at java.lang.reflect.Method.invoke(Native Method)
+09-09 19:44:52.696: E/AndroidRuntime(2044): 	at java.lang.reflect.Method.invoke(Method.java:372)
+09-09 19:44:52.696: E/AndroidRuntime(2044): 	at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:899)
+09-09 19:44:52.696: E/AndroidRuntime(2044): 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:694)
+09-09 19:44:57.745: I/Process(2044): Sending signal. PID: 2044 SIG: 9

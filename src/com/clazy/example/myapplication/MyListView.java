@@ -8,6 +8,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
@@ -119,6 +120,7 @@ public class MyListView extends ListView implements android.widget.AdapterView.O
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		News OpenNews = (News)(getItemAtPosition(position));
+		OpenNews.Read = true;
 		Activity.EnterNews(OpenNews);
 	}
 }

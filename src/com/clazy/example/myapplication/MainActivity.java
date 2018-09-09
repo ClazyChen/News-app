@@ -2,9 +2,12 @@ package com.clazy.example.myapplication;
 
 import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -16,6 +19,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -36,6 +40,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Html;
@@ -48,6 +53,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -66,6 +72,8 @@ public class MainActivity extends Activity {
 		public Date Time;
 		public boolean Enabled;
 		public boolean Read;
+		public boolean MarkedFlag;
+		protected News() { }
 		public News(String _Title, String _Desc, String _Link, String _Time, int LargeGroup, int Group) {
 			this.Title = _Title;
 			this.Description = _Desc;
@@ -74,6 +82,30 @@ public class MainActivity extends Activity {
 			this.GroupIndex = Group;
 			this.Enabled = false;
 			this.Read = false;
+			this.MarkedFlag = false;
+			if (LargeGroup < 0) {
+				this.MarkedFlag = true;
+				this.Enabled = true;
+				this.Read = true;
+			} else {
+				if (Modules != null && Modules.get(Marked) != null) {
+					for (News news : Modules.get(Marked)) {
+						if (news.Title.equals(Title)) {
+							this.MarkedFlag = true;
+							break;
+						}
+					}
+ 				}
+				if (History != null) {
+					for (News s : History) {
+						if (s.Title.equals(Title)) {
+							this.Read = true;
+							break;
+						}
+					}
+				}
+			}
+			this.MarkedFlag = (LargeGroup < 0);
 			try {
 				this.Time = (InputDateFormat.parse(_Time));
 			} catch (ParseException e) {
@@ -97,11 +129,19 @@ public class MainActivity extends Activity {
 			View view = LayoutInflater.from(getContext()).inflate(Id, null);
 	        TextView NewsTitle = (TextView)view.findViewById(R.id.TitleView);
 	        TextView NewsDate =  (TextView)view.findViewById(R.id.DateView);
-	        NewsTitle.setText(news.Title);
-	        if (news.Read) {
-	        	NewsTitle.setTextColor(Color.rgb(63, 63, 63));
+	        if (NewsTitle != null) {
+	        	NewsTitle.setText(news.Title);
+		        if (news.Read) {
+		        	NewsTitle.setTextColor(Color.GRAY);
+		        }
 	        }
-	        NewsDate.setText(GetPastTime(news.Time));
+	        String DateText = GetPastTime(news.Time);
+	        if (news.MarkedFlag) {
+	        	DateText = "ÒÑÊÕ²Ø " + DateText;
+	        }
+	        if (NewsDate != null) {
+	        	NewsDate.setText(DateText);
+	        }
 	        return view;
 		}
 		
@@ -121,6 +161,9 @@ public class MainActivity extends Activity {
 			View view = LayoutInflater.from(getContext()).inflate(Id, null);
 			final String HtmlText = (String)getItem(position);
 			final TextView NewsView = (TextView)view.findViewById(R.id.pTextView);
+			if (NewsView == null) {
+				return null;
+			}
 			NewsView.setText(Html.fromHtml(HtmlText, new ImageGetter() {
 				class GetDrawableTask extends AsyncTask<String, Void, Drawable> {
 					TextView TaskTextView;
@@ -205,11 +248,53 @@ public class MainActivity extends Activity {
 		return ans;
 	}
 	
-	synchronized private void WriteMarkedFile() {
+	synchronized private void WriteHistory() {
+		File HistoryFile = new File(this.getExternalFilesDir(null), HistoryFileName);
+		if (!HistoryFile.exists()) {
+			try {
+				HistoryFile.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 		try {
-			XMLWriter writer = new XMLWriter(new FileWriter(MarkedFileName));
-			writer.write(MarkedDocument);
-			writer.close();
+			FileOutputStream fos = new FileOutputStream(HistoryFile);
+			if (History != null) {
+				for (News news : History) {
+					fos.write((news.Title + "\n").getBytes("UTF-8"));
+					fos.write((news.LargeGroupIndex + "\n").getBytes("UTF-8"));
+					fos.write((news.GroupIndex + "\n").getBytes("UTF-8"));
+				}
+			}
+			fos.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	synchronized private void WriteMarkedFile() {
+		File MarkedFile = new File(this.getExternalFilesDir(null), MarkedFileName);
+		if (!MarkedFile.exists()) {
+			try {
+				MarkedFile.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		try {
+			FileOutputStream fos = new FileOutputStream(MarkedFile);
+			if (Modules != null && Modules.get(Marked)!=null) {
+				for (News news : Modules.get(Marked)) {
+					fos.write((news.Title + "\n").getBytes("UTF-8"));
+					fos.write((InputDateFormat.format(news.Time) + "\n").getBytes("UTF-8"));
+					fos.write((news.Link + "\n").getBytes("UTF-8"));
+				}
+			}
+			fos.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -245,18 +330,104 @@ public class MainActivity extends Activity {
 							R.layout.news_item, VisibleNews = GetEnabledNews(ForumNews));
 					RefreshList();
 					MyListView listview = (MyListView)findViewById(R.id.NewsList);
-					listview.setAdapter(VisibleNewsAdapter);
+					if (listview != null) {
+						listview.setAdapter(VisibleNewsAdapter);
+					}
 				}
 			}
 		});
 	}
 	
+	public void onRecommendButtonClick(View view) {
+		class WeightNews extends News {
+			public int Weight = 0;
+			public WeightNews(News news, int Weight) {
+				super();
+				this.Weight = Weight;
+				this.Title = news.Title;
+				this.Link = news.Link;
+				this.Time = news.Time;
+				this.Read = news.Read;
+				this.MarkedFlag = news.MarkedFlag;
+				this.Enabled = false;
+				this.GroupIndex = news.GroupIndex;
+				this.LargeGroupIndex = news.LargeGroupIndex;
+				this.Description = news.Description;
+			}
+		};
+		class LCSAlgorithm {
+			public LCSAlgorithm() {	}
+			public int LCS(String x, String y) {
+				int[][] d = new int[x.length()+1][y.length() +1];
+				int maxlen = 0;
+				for (int i = 1; i <= x.length(); ++ i) {
+					for (int j = 1; j <= y.length(); ++ j) {
+						if (x.charAt(i-1) == y.charAt(j-1)) {
+							d[i][j] = d[i-1][j-1] +1;
+							if (d[i][j] > maxlen) {
+								maxlen = d[i][j];
+							}
+						}
+					}
+				}
+				return maxlen;
+			}
+		}
+		ArrayList<WeightNews> Recommended = new ArrayList<WeightNews>();
+		LCSAlgorithm LCS = new LCSAlgorithm();
+		for (String key : Modules.keySet()) {
+			if (!key.equals(Marked)) {
+				for (News news : Modules.get(key)) {
+					if (!news.Read) {
+						int Weight = 0;
+						for (News his : History) {
+							if (his.LargeGroupIndex == news.LargeGroupIndex) {
+								Weight += 1;
+								if (his.GroupIndex == news.GroupIndex) {
+									Weight += 2;
+								}
+							}
+							int lcs = LCS.LCS(his.Title, news.Title);
+							if (lcs >= 3) {
+								Weight += lcs -2;
+							}
+						}
+						Recommended.add(new WeightNews(news, Weight));
+					}
+				}
+			}
+		}
+		Collections.sort(Recommended, new Comparator<WeightNews>() {
+			@Override
+			public int compare(WeightNews x, WeightNews y) {
+				return ((Integer)(y.Weight)).compareTo((Integer)(x.Weight));
+			}
+		});
+		ForumNews = new ArrayList<News>();
+		int count = 0;
+		for (News news : Recommended) {
+			if (count < 20) {
+				count ++;
+			} else {
+				break;
+			}
+			ForumNews.add(news);
+		}
+		if (ForumNews.size() == 0) {
+			return;
+		}
+		DisplayForumNews();
+	}
+	
 	public void onSearchButtonClick(View view) {
 		EditText editText = (EditText)findViewById(R.id.Search);
+		if (editText == null) {
+			return;
+		}
 		String[] SearchedWords = editText.getText().toString().split(" ");
 		ForumNews = new ArrayList<News>();
 		for (String key : Modules.keySet()) {
-			if (!key.equals("Marked")) {
+			if (!key.equals(Marked)) {
 				for (News news : Modules.get(key)) {
 					news.Enabled = false;
 					for (String s : SearchedWords) {
@@ -278,6 +449,7 @@ public class MainActivity extends Activity {
 		if (!LoadFinished) {
 			return;
 		}
+		LastVisitedForum = forum;
 		ForumNews = Modules.get(forum);
 		if (ForumNews == null || ForumNews.size() == 0) {
 			return;
@@ -286,21 +458,88 @@ public class MainActivity extends Activity {
 	}
 	
 	public void onReturnButtonClick(View view) {
+		if (LastMarkedLength != Modules.get(Marked).size()) {
+			LastMarkedLength = Modules.get(Marked).size();
+			WriteMarkedFile();
+		}
 		MyHandler.post(new Runnable() {
 			@Override
 			public void run() {
 				setContentView(R.layout.activity_main);
-				VisibleNewsAdapter.notifyDataSetChanged();
+				DisplayNews(LastVisitedForum, NewsOnAPage);
 			}
 		});
 	}
 	
+	public void onMarkedButtonClick(View view) {
+		if (NowNews != null) {
+			if (NowNews.MarkedFlag) {
+				NowNews.MarkedFlag = false;
+				if (Modules.get(Marked) != null) {
+					for (int i = 0; i < Modules.get(Marked).size(); ++ i) {
+						if (Modules.get(Marked).get(i).Title.equals(NowNews.Title)) {
+							Modules.get(Marked).remove(i);
+							break;
+						}
+					}
+				}
+				MyHandler.post(new Runnable() {
+					@Override
+					public void run() {
+						Button button = (Button)findViewById(R.id.MarkedButton);
+						if (button != null) {
+							button.setText("ÉèÎªÊÕ²Ø");
+						}
+					}
+				});
+			} else {
+				NowNews.MarkedFlag = true;
+				if (Modules.get(Marked) != null) {
+					boolean Add = true;
+					for (int i = 0; i < Modules.get(Marked).size(); ++ i) {
+						if (Modules.get(Marked).get(i).Title.equals(NowNews.Title)) {
+							Add = false;
+							break;
+						}
+					}
+					if (Add) {
+						Modules.get(Marked).add(new News(NowNews.Title, "", NowNews.Link, 
+								InputDateFormat.format(new Date()), -1, -1));
+					}
+				}
+				MyHandler.post(new Runnable() {
+					@Override
+					public void run() {
+						Button button = (Button)findViewById(R.id.MarkedButton);
+						if (button != null) {
+							button.setText("È¡ÏûÊÕ²Ø");
+						}
+					}
+				});
+			}
+		}
+	}
+	
 	public void EnterNews(final News news) {
 		news.Read = true;
+		NowNews = news;
+		if (History != null && news.LargeGroupIndex >= 0) {
+			while (History.size() >= 100) {
+				History.remove(0);
+			}
+			History.add(new News(news.Title, "", "", "", news.LargeGroupIndex, news.GroupIndex));
+			WriteHistory();
+		}
 		MyHandler.post(new Runnable() {
 			@Override
 			public void run() {
 				setContentView(R.layout.news_content);
+				Button button = (Button)findViewById(R.id.MarkedButton);
+				if (button != null) {
+					if (news.MarkedFlag) {
+						button.setText("È¡ÏûÊÕ²Ø");
+					}
+				}
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
@@ -351,8 +590,10 @@ public class MainActivity extends Activity {
 								NewsParagraphAdapter adapter = new NewsParagraphAdapter(MainActivity.this, 
 										R.layout.news_paragraph, Items);
 								ListView listview = (ListView)findViewById(R.id.NewsTextList);
-								listview.setDivider(null);
-								listview.setAdapter(adapter);
+								if (listview != null) {
+									listview.setDivider(null);
+									listview.setAdapter(adapter);
+								}
 							}
 						});
 					}
@@ -361,42 +602,81 @@ public class MainActivity extends Activity {
 		});
 	}
 	
+	synchronized private void GetHistory() {
+		File HistoryFile = new File(this.getExternalFilesDir(null), HistoryFileName);
+		if (!HistoryFile.exists()) {
+			try {
+				HistoryFile.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		History = new ArrayList<News>();
+		try {
+			Scanner in = new Scanner(HistoryFile);
+			while (in.hasNext()) {
+				String Title = in.nextLine();
+				Integer LargeGroup = in.hasNext() ? in.nextInt() : null;
+				Integer Group = in.hasNext() ? in.nextInt() : null;
+				if (LargeGroup != null && Group != null) {
+					History.add(new News(Title, "", "", "", LargeGroup, Group));
+				}
+			}
+			in.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@SuppressWarnings("finally")
+	synchronized private void ProcessMarked() {
+		File MarkedFile = new File(this.getExternalFilesDir(null), MarkedFileName);
+		if (!MarkedFile.exists()) {
+			try {
+				MarkedFile.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				Modules.put(Marked, new ArrayList<News>());
+				return;
+			}
+		}
+		ArrayList<News> MarkedList = new ArrayList<News>();
+		try {
+			Scanner in = new Scanner(MarkedFile);
+			while (in.hasNext()) {
+				String Title = in.nextLine();
+				String Time = in.hasNext() ? in.nextLine() : null;
+				String Url = in.hasNext() ? in.nextLine() : null;
+				if (Time != null && Url != null) {
+					MarkedList.add(new News(Title, "", Url, Time, -1, -1));
+				}
+			}
+			Modules.put(Marked, MarkedList);
+			in.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	@SuppressWarnings("finally")
 	private ArrayList<News> ParseUrl(String Link, int LargeGroup, int Group) {
 		ArrayList<News> NewsList = new ArrayList<News>();
 		try {
 			Document doc = null;
-			if (!Link.contains("http")) {
-				File MarkedFile = new File(MarkedFileName);
-				if (MarkedFile.exists()) {
-					doc = Jsoup.parse(MarkedFile, "UTF-8");
-					MarkedDocument = (new SAXReader()).read(MarkedFile);
-				} else {
-					if (MarkedFile.createNewFile()) {
-						new Thread(new Runnable() {
-							@Override
-							public void run() {
-								WriteMarkedFile();
-							}
-						}).start();
-					}
-					return NewsList;
+			URLConnection conn = (new URL(Link)).openConnection();
+			conn.setConnectTimeout(1000);
+			conn.setReadTimeout(1000);
+			boolean useï¿½ï¿½ = false;
+			for (int i = 0; i < ï¿½ï¿½.length; ++i) {
+				if (ï¿½ï¿½[i].equals(Link)) {
+					doc = Jsoup.parse(conn.getInputStream(), "gb2312", Link);
+					useï¿½ï¿½ = true;
+					break;
 				}
-			} else {
-				URLConnection conn = (new URL(Link)).openConnection();
-				conn.setConnectTimeout(1000);
-				conn.setReadTimeout(1000);
-				boolean useï¿½ï¿½ = false;
-				for (int i = 0; i < ï¿½ï¿½.length; ++ i) {
-					if (ï¿½ï¿½[i].equals(Link)) {
-						doc = Jsoup.parse(conn.getInputStream(), "gb2312", Link);
-						useï¿½ï¿½ = true;
-						break;
-					}
-				}
-				if (!useï¿½ï¿½) {
-					doc = Jsoup.parse(conn.getInputStream(), "UTF-8", Link);
-				}
+			}
+			if (!useï¿½ï¿½) {
+				doc = Jsoup.parse(conn.getInputStream(), "UTF-8", Link);
 			}
 			Elements Items = doc.select("item");
 			Log.d(String.valueOf(Items.size()), Link);
@@ -416,14 +696,19 @@ public class MainActivity extends Activity {
 	
 	private Pattern LinkPattern= Pattern.compile("<link>([^<>\\s]+)");
 	private HashMap<String,ArrayList<News> > Modules;
-	private org.dom4j.Document MarkedDocument;
 	private Date NowTime;
-	private final String MarkedFileName = "marked.xml";
+	private final String Marked = "Marked";
+	private final String MarkedFileName = "marked.txt";
+	private final String HistoryFileName = "history.txt";
 	static final int NewsOnAPage = 8;
 	private boolean LoadFinished = false;
 	private ArrayList<News> ForumNews;
 	private ArrayList<News> VisibleNews;
+	private ArrayList<News> History;
 	private NewsAdapter VisibleNewsAdapter;
+	private String LastVisitedForum = Marked;
+	private int LastMarkedLength = 0;
+	private News NowNews;
 	private int loaded;
 	@SuppressLint("SimpleDateFormat")
 	private final SimpleDateFormat OutputDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -457,7 +742,7 @@ public class MainActivity extends Activity {
 			DisplayNews("Recommended", NewsOnAPage);
 			break;
 		case R.id.MarkedButton:
-			DisplayNews("Marked", NewsOnAPage);
+			DisplayNews(Marked, NewsOnAPage);
 			break;
 		}
 	}
@@ -476,9 +761,6 @@ public class MainActivity extends Activity {
 	
 	private final String Urls[][] = new String[][] {
 		new String[] {
-				"Marked",
-				MarkedFileName
-		}, new String[] {
 				"News",
 				"http://news.qq.com/newsgn/rss_newsgn.xml",
 				"http://news.qq.com/newsgj/rss_newswj.xml",
@@ -534,10 +816,14 @@ public class MainActivity extends Activity {
 	};
 	
 	private void RefreshList() {
-		((MyListView)findViewById(R.id.NewsList)).GiveHandlers(MyHandler, ForumNews, VisibleNews, VisibleNewsAdapter, this);
+		MyListView lv = (MyListView)findViewById(R.id.NewsList);
+		if (lv != null) {
+			lv.GiveHandlers(MyHandler, ForumNews, VisibleNews, VisibleNewsAdapter, this);
+		}
 	}
 	
-	synchronized private void DetectLoadFinished() {
+	synchronized private void DetectLoadFinished(String ModuleName, ArrayList<News> ModuleNews) {
+		Modules.put(ModuleName, ModuleNews);
 		if (LoadFinished) {
 			return;
 		}
@@ -560,14 +846,12 @@ public class MainActivity extends Activity {
 		}
 		@Override
 		public void run() {
-			NowTime = new Date();
 			final String ModuleName = Urls[id][0];
 			ArrayList<News> ModuleNews = new ArrayList<News>();
 			for (int j = 1; j < Urls[id].length; ++ j) {
 				ModuleNews.addAll(ParseUrl(Urls[id][j], id, j));
 			}
-			Modules.put(ModuleName, ModuleNews);
-			DetectLoadFinished();
+			DetectLoadFinished(ModuleName, ModuleNews);
 		}
 	}
  	
@@ -575,15 +859,19 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Modules = new HashMap<String, ArrayList<News> >();
-		MarkedDocument = DocumentHelper.createDocument();
 		NowTime = new Date();
 		ForumNews = new ArrayList<News>();
 		VisibleNews = new ArrayList<News>();
 		VisibleNewsAdapter = null;
 		LoadFinished = false;
 		loaded = 0;
+		NowNews = null;
+		NowTime = new Date();
 		setContentView(R.layout.activity_main);
 		RefreshList();
+		GetHistory();
+		ProcessMarked();
+		LastMarkedLength = Modules.get(Marked).size();
 		for (int i = 0; i < Urls.length; ++i) {
 			(new Spider(i)).start();
 		}

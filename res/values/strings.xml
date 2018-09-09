@@ -21,5 +21,7 @@
     
     <string name="loading">正在加载</string>
     <string name="Returner">返回首页</string>
+    <string name="Marker">设为收藏</string>
+    <string name="DMarker">取消收藏</string>
 
 </resources>
