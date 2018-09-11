@@ -1,0 +1,57 @@
+<?xml version = "1.0" encoding = "utf-8"?><LinearLayout xmlns:android = "http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/ReturnButton3"
+        android:onClick="OnAnotherReturnButtonClick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Returner" />
+
+    <Button
+        android:id="@+id/NewsPointButton"
+        android:onClick="onChangePointButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/News" />
+    <Button
+        android:id="@+id/NewsYlPointButton"
+        android:onClick="onChangePointButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/NewsYl" />
+    <Button
+        android:id="@+id/NewsCjPointButton"
+        android:onClick="onChangePointButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/NewsCj" />
+    <Button
+        android:id="@+id/NewsTyPointButton"
+        android:onClick="onChangePointButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/NewsTy" />
+    <Button
+        android:id="@+id/NewsKjPointButton"
+        android:onClick="onChangePointButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/NewsKj" />
+    <Button
+        android:id="@+id/NewsYxPointButton"
+        android:onClick="onChangePointButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/NewsYx" />
+    <Button
+        android:id="@+id/NewsJyPointButton"
+        android:onClick="onChangePointButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/NewsJy" />
+
+</LinearLayout>

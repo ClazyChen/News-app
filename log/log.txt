@@ -1,74 +1,63 @@
-09-09 19:43:34.821: W/ContextImpl(2044): Failed to ensure directory: /storage/sdcard/Android/data/com.clazy.example.myapplication/files
-09-09 19:43:35.073: I/art(2044): Background sticky concurrent mark sweep GC freed 10891(615KB) AllocSpace objects, 0(0B) LOS objects, 31% free, 1439KB/2MB, paused 751us total 135.488ms
-09-09 19:43:41.503: I/Choreographer(2044): Skipped 368 frames!  The application may be doing too much work on its main thread.
-09-09 19:43:41.508: D/gralloc_ranchu(2044): Emulator without host-side GPU emulation detected. Loading gralloc.default.so from /vendor/lib64/hw/gralloc.default.so...
-09-09 19:43:41.508: D/gralloc_ranchu(2044): gralloc.default.so not found in /vendor. Trying /system/lib64/hw/gralloc.default.so...
-09-09 19:43:46.585: W/ContextImpl(2044): Failed to ensure directory: /storage/sdcard/Android/data/com.clazy.example.myapplication/files
-09-09 19:43:46.960: D/20(2044): http://news.qq.com/newsgn/rss_newsgn.xml
-09-09 19:43:46.971: D/20(2044): http://games.qq.com/ntgame/rss_ntgame.xml
-09-09 19:43:46.997: D/20(2044): http://tech.qq.com/web/webnews/rss_11.xml
-09-09 19:43:47.005: D/20(2044): http://ent.qq.com/movie/rss_movie.xml
-09-09 19:43:47.013: D/20(2044): http://sports.qq.com/basket/nba/nbarep/rss_nbarep.xml
-09-09 19:43:47.117: D/20(2044): http://edu.qq.com/edunew/rss_edunew.xml
-09-09 19:43:47.130: D/20(2044): http://sports.qq.com/basket/bskb/cba/rss_cba.xml
-09-09 19:43:47.138: D/20(2044): http://finance.qq.com/financenews/domestic/rss_domestic.xml
-09-09 19:43:47.166: D/20(2044): http://ent.qq.com/tv/rss_tv.xml
-09-09 19:43:47.183: D/20(2044): http://games.qq.com/mobile/rss_mobile.xml
-09-09 19:43:47.327: D/20(2044): http://edu.qq.com/abroad/rss_abroad.xml
-09-09 19:43:47.342: D/20(2044): http://ent.qq.com/m_news/rss_yinyue.xml
-09-09 19:43:47.400: D/20(2044): http://finance.qq.com/financenews/international/rss_international.xml
-09-09 19:43:47.434: I/art(2044): Background sticky concurrent mark sweep GC freed 61283(1963KB) AllocSpace objects, 9(480KB) LOS objects, 0% free, 6MB/6MB, paused 1.233ms total 336.277ms
-09-09 19:43:47.498: D/20(2044): http://sports.qq.com/isocce/yingc/rss_pl.xml
-09-09 19:43:47.557: D/20(2044): http://finance.qq.com/financenews/jinrongshichang/rss_jinrongshichang.xml
-09-09 19:43:47.652: D/20(2044): http://sports.qq.com/isocce/yijia/rss_sereasa.xml
-09-09 19:43:47.735: I/art(2044): Background partial concurrent mark sweep GC freed 65744(2MB) AllocSpace objects, 40(2046KB) LOS objects, 40% free, 3MB/6MB, paused 1.004ms total 229.191ms
-09-09 19:43:47.771: D/20(2044): http://sports.qq.com/isocce/xijia/rss_laliga.xml
-09-09 19:43:47.777: D/20(2044): http://finance.qq.com/money/rss_money.xml
-09-09 19:43:48.034: D/20(2044): http://sports.qq.com/csocce/rss_csocce.xml
-09-09 19:43:48.198: D/20(2044): http://sports.qq.com/tennis/rss_tennis.xml
-09-09 19:43:48.274: I/art(2044): Background sticky concurrent mark sweep GC freed 68346(2MB) AllocSpace objects, 12(640KB) LOS objects, 32% free, 4MB/6MB, paused 611us total 158.601ms
-09-09 19:43:48.371: D/20(2044): http://tech.qq.com/web/it/telerss.xml
-09-09 19:43:48.376: D/20(2044): http://news.qq.com/newsgj/rss_newswj.xml
-09-09 19:43:48.525: D/20(2044): http://news.qq.com/newsgj/rss_newswj.xml
-09-09 19:43:48.609: D/20(2044): http://news.qq.com/milite/rss_milit.xml
-09-09 19:43:48.808: D/20(2044): http://tech.qq.com/web/tele/telexml.xml
-09-09 19:43:49.115: D/20(2044): http://tech.qq.com/web/Innovation/rss_cycx.xml
-09-09 19:43:49.383: D/20(2044): http://tech.qq.com/web/ydhl/ydhl.xml
-09-09 19:43:49.616: I/Choreographer(2044): Skipped 448 frames!  The application may be doing too much work on its main thread.
-09-09 19:43:49.729: D/20(2044): http://tech.qq.com/web/dzsw/dzsw.xml
-09-09 19:43:49.983: D/20(2044): http://tech.qq.com/web/sjwl/sjwl.xml
-09-09 19:43:50.246: D/20(2044): http://tech.qq.com/web/gameol/onlinegame.xml
-09-09 19:43:53.392: W/IInputConnectionWrapper(2044): getTextBeforeCursor on inactive InputConnection
-09-09 19:43:53.393: W/IInputConnectionWrapper(2044): requestCursorAnchorInfo on inactive InputConnection
-09-09 19:43:53.393: I/Choreographer(2044): Skipped 226 frames!  The application may be doing too much work on its main thread.
-09-09 19:43:53.409: W/IInputConnectionWrapper(2044): getTextBeforeCursor on inactive InputConnection
-09-09 19:43:54.442: W/IInputConnectionWrapper(2044): getTextBeforeCursor on inactive InputConnection
-09-09 19:43:54.456: I/Choreographer(2044): Skipped 61 frames!  The application may be doing too much work on its main thread.
-09-09 19:43:56.203: W/IInputConnectionWrapper(2044): getTextBeforeCursor on inactive InputConnection
-09-09 19:44:11.118: D/Open(2044): https://sports.qq.com/a/20180910/002485.htm
-09-09 19:44:12.328: I/art(2044): Background sticky concurrent mark sweep GC freed 24175(906KB) AllocSpace objects, 0(0B) LOS objects, 7% free, 4MB/4MB, paused 894us total 148.786ms
-09-09 19:44:12.818: I/art(2044): Background sticky concurrent mark sweep GC freed 46741(1752KB) AllocSpace objects, 0(0B) LOS objects, 28% free, 4MB/6MB, paused 20.653ms total 41.505ms
-09-09 19:44:17.666: D/Open(2044): https://sports.qq.com/a/20180910/002388.htm
-09-09 19:44:21.357: W/IInputConnectionWrapper(2044): finishComposingText on inactive InputConnection
-09-09 19:44:28.096: D/Open(2044): https://news.qq.com/a/20180909/062680.htm
-09-09 19:44:39.539: D/Open(2044): https://finance.qq.com/a/20180909/059886.htm
-09-09 19:44:42.962: D/Open(2044): https://finance.qq.com/a/20180909/056195.htm
-09-09 19:44:45.567: D/Open(2044): https://finance.qq.com/a/20180909/053399.htm
-09-09 19:44:46.094: I/art(2044): Background sticky concurrent mark sweep GC freed 36486(1444KB) AllocSpace objects, 6(236KB) LOS objects, 17% free, 4MB/5MB, paused 528us total 149.204ms
-09-09 19:44:50.852: D/Open(2044): https://news.qq.com/a/20180909/062240.htm
-09-09 19:44:52.254: I/art(2044): Background sticky concurrent mark sweep GC freed 42122(1579KB) AllocSpace objects, 2(135KB) LOS objects, 19% free, 4MB/5MB, paused 1.005ms total 129.613ms
-09-09 19:44:52.696: D/AndroidRuntime(2044): Shutting down VM
-09-09 19:44:52.696: D/AndroidRuntime(2044): --------- beginning of crash
-09-09 19:44:52.696: E/AndroidRuntime(2044): FATAL EXCEPTION: main
-09-09 19:44:52.696: E/AndroidRuntime(2044): Process: com.clazy.example.myapplication, PID: 2044
-09-09 19:44:52.696: E/AndroidRuntime(2044): java.lang.NullPointerException: Attempt to invoke virtual method 'void android.widget.ListView.setDivider(android.graphics.drawable.Drawable)' on a null object reference
-09-09 19:44:52.696: E/AndroidRuntime(2044): 	at com.clazy.example.myapplication.MainActivity$7$1$1.run(MainActivity.java:457)
-09-09 19:44:52.696: E/AndroidRuntime(2044): 	at android.os.Handler.handleCallback(Handler.java:739)
-09-09 19:44:52.696: E/AndroidRuntime(2044): 	at android.os.Handler.dispatchMessage(Handler.java:95)
-09-09 19:44:52.696: E/AndroidRuntime(2044): 	at android.os.Looper.loop(Looper.java:135)
-09-09 19:44:52.696: E/AndroidRuntime(2044): 	at android.app.ActivityThread.main(ActivityThread.java:5221)
-09-09 19:44:52.696: E/AndroidRuntime(2044): 	at java.lang.reflect.Method.invoke(Native Method)
-09-09 19:44:52.696: E/AndroidRuntime(2044): 	at java.lang.reflect.Method.invoke(Method.java:372)
-09-09 19:44:52.696: E/AndroidRuntime(2044): 	at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:899)
-09-09 19:44:52.696: E/AndroidRuntime(2044): 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:694)
-09-09 19:44:57.745: I/Process(2044): Sending signal. PID: 2044 SIG: 9
+09-10 07:55:03.555: W/ContextImpl(2044): Failed to ensure directory: /storage/sdcard/Android/data/com.clazy.example.myapplication/files
+09-10 07:55:03.563: W/ContextImpl(2044): Failed to ensure directory: /storage/sdcard/Android/data/com.clazy.example.myapplication/files
+09-10 07:55:03.857: I/art(2044): Background sticky concurrent mark sweep GC freed 10974(624KB) AllocSpace objects, 0(0B) LOS objects, 32% free, 1389KB/2MB, paused 22.229ms total 247.594ms
+09-10 07:55:05.719: I/Choreographer(2044): Skipped 55 frames!  The application may be doing too much work on its main thread.
+09-10 07:55:09.219: W/ContextImpl(2044): Failed to ensure directory: /storage/sdcard/Android/data/com.clazy.example.myapplication/files
+09-10 07:55:09.224: W/ContextImpl(2044): Failed to ensure directory: /storage/sdcard/Android/data/com.clazy.example.myapplication/files
+09-10 07:55:09.275: I/Choreographer(2044): Skipped 211 frames!  The application may be doing too much work on its main thread.
+09-10 07:55:09.478: D/20(2044): http://tech.qq.com/web/webnews/rss_11.xml
+09-10 07:55:09.503: D/20(2044): http://edu.qq.com/edunew/rss_edunew.xml
+09-10 07:55:09.508: D/20(2044): http://news.qq.com/newsgn/rss_newsgn.xml
+09-10 07:55:09.514: D/20(2044): http://ent.qq.com/movie/rss_movie.xml
+09-10 07:55:09.520: D/20(2044): http://finance.qq.com/financenews/domestic/rss_domestic.xml
+09-10 07:55:09.552: D/20(2044): http://sports.qq.com/basket/nba/nbarep/rss_nbarep.xml
+09-10 07:55:09.560: D/20(2044): http://games.qq.com/ntgame/rss_ntgame.xml
+09-10 07:55:09.764: D/20(2044): http://edu.qq.com/abroad/rss_abroad.xml
+09-10 07:55:09.803: I/art(2044): Background sticky concurrent mark sweep GC freed 48442(1514KB) AllocSpace objects, 0(0B) LOS objects, 0% free, 5MB/5MB, paused 1.830ms total 178.016ms
+09-10 07:55:09.804: D/20(2044): http://games.qq.com/mobile/rss_mobile.xml
+09-10 07:55:09.813: D/20(2044): http://sports.qq.com/basket/bskb/cba/rss_cba.xml
+09-10 07:55:09.881: D/20(2044): http://ent.qq.com/tv/rss_tv.xml
+09-10 07:55:09.923: D/20(2044): http://finance.qq.com/financenews/international/rss_international.xml
+09-10 07:55:10.065: D/20(2044): http://finance.qq.com/financenews/jinrongshichang/rss_jinrongshichang.xml
+09-10 07:55:10.070: I/art(2044): Background partial concurrent mark sweep GC freed 60626(2MB) AllocSpace objects, 34(1822KB) LOS objects, 40% free, 4MB/7MB, paused 1.664ms total 200.662ms
+09-10 07:55:10.072: D/20(2044): http://ent.qq.com/m_news/rss_yinyue.xml
+09-10 07:55:10.252: D/20(2044): http://sports.qq.com/isocce/yingc/rss_pl.xml
+09-10 07:55:10.268: D/20(2044): http://finance.qq.com/money/rss_money.xml
+09-10 07:55:10.360: D/20(2044): http://news.qq.com/newsgj/rss_newswj.xml
+09-10 07:55:10.413: D/20(2044): http://sports.qq.com/isocce/yijia/rss_sereasa.xml
+09-10 07:55:10.455: D/20(2044): http://tech.qq.com/web/it/telerss.xml
+09-10 07:55:10.523: I/art(2044): Background sticky concurrent mark sweep GC freed 54010(1901KB) AllocSpace objects, 9(480KB) LOS objects, 19% free, 5MB/7MB, paused 849us total 158.979ms
+09-10 07:55:10.562: D/20(2044): http://sports.qq.com/isocce/xijia/rss_laliga.xml
+09-10 07:55:10.606: D/20(2044): http://news.qq.com/newsgj/rss_newswj.xml
+09-10 07:55:10.798: D/20(2044): http://sports.qq.com/csocce/rss_csocce.xml
+09-10 07:55:10.958: D/20(2044): http://sports.qq.com/tennis/rss_tennis.xml
+09-10 07:55:11.057: D/20(2044): http://news.qq.com/milite/rss_milit.xml
+09-10 07:55:11.078: D/20(2044): http://tech.qq.com/web/tele/telexml.xml
+09-10 07:55:11.348: D/20(2044): http://tech.qq.com/web/Innovation/rss_cycx.xml
+09-10 07:55:11.646: D/20(2044): http://tech.qq.com/web/ydhl/ydhl.xml
+09-10 07:55:11.934: D/20(2044): http://tech.qq.com/web/dzsw/dzsw.xml
+09-10 07:55:12.252: D/20(2044): http://tech.qq.com/web/sjwl/sjwl.xml
+09-10 07:55:12.512: D/20(2044): http://tech.qq.com/web/gameol/onlinegame.xml
+09-10 07:55:13.192: I/Choreographer(2044): Skipped 234 frames!  The application may be doing too much work on its main thread.
+09-10 07:55:13.196: D/gralloc_ranchu(2044): Emulator without host-side GPU emulation detected. Loading gralloc.default.so from /vendor/lib64/hw/gralloc.default.so...
+09-10 07:55:13.196: D/gralloc_ranchu(2044): gralloc.default.so not found in /vendor. Trying /system/lib64/hw/gralloc.default.so...
+09-10 07:55:15.448: I/Choreographer(2044): Skipped 134 frames!  The application may be doing too much work on its main thread.
+09-10 07:55:18.873: I/Choreographer(2044): Skipped 201 frames!  The application may be doing too much work on its main thread.
+09-10 07:55:23.587: I/art(2044): Background sticky concurrent mark sweep GC freed 17529(657KB) AllocSpace objects, 0(0B) LOS objects, 0% free, 9MB/9MB, paused 44.401ms total 55.982ms
+09-10 07:55:23.642: I/art(2044): Background partial concurrent mark sweep GC freed 13277(650KB) AllocSpace objects, 1(16KB) LOS objects, 30% free, 8MB/12MB, paused 19.852ms total 41.512ms
+09-10 07:55:24.375: I/art(2044): Background partial concurrent mark sweep GC freed 2910(250KB) AllocSpace objects, 6(5MB) LOS objects, 31% free, 8MB/12MB, paused 20.602ms total 29.217ms
+09-10 07:55:24.811: D/AndroidRuntime(2044): Shutting down VM
+09-10 07:55:24.811: D/AndroidRuntime(2044): --------- beginning of crash
+09-10 07:55:24.814: E/AndroidRuntime(2044): FATAL EXCEPTION: main
+09-10 07:55:24.814: E/AndroidRuntime(2044): Process: com.clazy.example.myapplication, PID: 2044
+09-10 07:55:24.814: E/AndroidRuntime(2044): java.lang.IllegalStateException: The content of the adapter has changed but ListView did not receive a notification. Make sure the content of your adapter is not modified from a background thread, but only from the UI thread. Make sure your adapter calls notifyDataSetChanged() when its content changes. [in ListView(2131230732, class com.clazy.example.myapplication.MyListView) with Adapter(class android.widget.HeaderViewListAdapter)]
+09-10 07:55:24.814: E/AndroidRuntime(2044): 	at android.widget.ListView.layoutChildren(ListView.java:1562)
+09-10 07:55:24.814: E/AndroidRuntime(2044): 	at android.widget.AbsListView$CheckForTap.run(AbsListView.java:3261)
+09-10 07:55:24.814: E/AndroidRuntime(2044): 	at android.os.Handler.handleCallback(Handler.java:739)
+09-10 07:55:24.814: E/AndroidRuntime(2044): 	at android.os.Handler.dispatchMessage(Handler.java:95)
+09-10 07:55:24.814: E/AndroidRuntime(2044): 	at android.os.Looper.loop(Looper.java:135)
+09-10 07:55:24.814: E/AndroidRuntime(2044): 	at android.app.ActivityThread.main(ActivityThread.java:5221)
+09-10 07:55:24.814: E/AndroidRuntime(2044): 	at java.lang.reflect.Method.invoke(Native Method)
+09-10 07:55:24.814: E/AndroidRuntime(2044): 	at java.lang.reflect.Method.invoke(Method.java:372)
+09-10 07:55:24.814: E/AndroidRuntime(2044): 	at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:899)
+09-10 07:55:24.814: E/AndroidRuntime(2044): 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:694)

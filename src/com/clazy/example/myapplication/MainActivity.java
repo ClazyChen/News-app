@@ -4,10 +4,8 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -23,9 +21,6 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.dom4j.DocumentHelper;
-import org.dom4j.io.SAXReader;
-import org.dom4j.io.XMLWriter;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -34,13 +29,13 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Html;
@@ -108,6 +103,9 @@ public class MainActivity extends Activity {
 			this.MarkedFlag = (LargeGroup < 0);
 			try {
 				this.Time = (InputDateFormat.parse(_Time));
+				if (this.Time.getTime() > NowTime.getTime()) {
+					this.Time.setTime(NowTime.getTime() - 1000 * 60 * 60 * 24);
+				}
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
@@ -209,8 +207,17 @@ public class MainActivity extends Activity {
 				public Drawable getDrawable(String source) {
 					if (source.startsWith("//")) {
 						source = "http:" + source;
+						(new GetDrawableTask(NewsView, HtmlText)).execute(source);
+					} else if (!source.startsWith("http")) {
+						final Bitmap bitmap = BitmapFactory.decodeFile(source);
+						if (bitmap != null) {
+							Drawable d = new BitmapDrawable(getResources(), bitmap);
+							d.setBounds(0, 0, bitmap.getWidth(), bitmap.getHeight());
+							return d;
+						}
+					} else {
+						(new GetDrawableTask(NewsView, HtmlText)).execute(source);
 					}
-					(new GetDrawableTask(NewsView, HtmlText)).execute(source);
 					return null;
 				}
 			}, null));
@@ -224,7 +231,9 @@ public class MainActivity extends Activity {
 			return "";
 		}
 		long minuteCount = (NowTime.getTime() - time.getTime()) / (60*1000);
-		if (minuteCount < 60) {
+		if (minuteCount < 0) {
+			return String.valueOf("1天前");
+		} else if (minuteCount < 60) {
 			return String.valueOf(minuteCount) + "分钟前";
 		} else if (minuteCount < 60 * 24) {
 			return String.valueOf(minuteCount / 60) + "小时前";
@@ -246,6 +255,30 @@ public class MainActivity extends Activity {
 			}
 		}
 		return ans;
+	}
+	
+	synchronized private void WritePoints() {
+		File PointsFile = new File(this.getExternalFilesDir(null), PointsFileName);
+		if (!PointsFile.exists()) {
+			try {
+				PointsFile.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		try {
+			FileOutputStream fos = new FileOutputStream(PointsFile);
+			if (Points != null) {
+				for (String s : Points) {
+					fos.write((s+ "\n").getBytes("UTF-8"));
+				}
+			}
+			fos.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	synchronized private void WriteHistory() {
@@ -457,6 +490,100 @@ public class MainActivity extends Activity {
 		DisplayForumNews();
 	}
 	
+	public void OnAnotherReturnButtonClick(View view) {
+		WritePoints();
+		MyHandler.post(new Runnable() {
+			@Override
+			public void run() {
+				setContentView(R.layout.activity_main);
+				RefreshForums();
+			}
+		});
+	} 
+	
+	public void ChangePoint(String point) {
+		boolean inPoint = false;
+		for (String s : Points) {
+			if (s.equals(point)) {
+				inPoint = true;
+			}
+		}
+		if (inPoint) {
+			Points.remove(point);
+			int Id = getPointButtonId(point);
+			if (Id != 0) {
+				Button b = (Button)findViewById(Id);
+				if (b != null) {
+					b.setTextColor(Color.BLACK);
+				}
+			}
+		} else {
+			Points.add(point);
+			int Id = getPointButtonId(point);
+			if (Id != 0) {
+				Button b = (Button)findViewById(Id);
+				if (b != null) {
+					b.setTextColor(Color.GRAY);
+				}
+			}
+		}
+	}
+	
+	public void onChangePointButton(View view) {
+		switch (view.getId()) {
+		case R.id.NewsPointButton:
+			ChangePoint("News");
+			break;
+		case R.id.NewsCjPointButton:
+			ChangePoint("NewsCj");
+			break;
+		case R.id.NewsJyPointButton:
+			ChangePoint("NewsJy");
+			break;
+		case R.id.NewsKjPointButton:
+			ChangePoint("NewsKj");
+			break;
+		case R.id.NewsTyPointButton:
+			ChangePoint("NewsTy");
+			break;
+		case R.id.NewsYlPointButton:
+			ChangePoint("NewsYl");
+			break;
+		case R.id.NewsYxPointButton:
+			ChangePoint("NewsYx");
+			break;
+		}
+	}
+	
+	public void onEditButtonClick(View view) {
+		MyHandler.post(new Runnable() {
+			@Override
+			public void run() {
+				setContentView(R.layout.points_view);
+				for (int i = 0; i < Urls.length; ++ i) {
+					int Id = getPointButtonId(Urls[i][0]);
+					if (Id != 0) {
+						boolean inPoints = false;
+						for (String s : Points) {
+							if (s.equals(Urls[i][0])) {
+								inPoints= true;
+								break;
+							}
+						}
+						Button b = (Button)findViewById(Id);
+						if (b != null) {
+							if (inPoints) {
+								b.setTextColor(Color.GRAY);
+							} else {
+								b.setTextColor(Color.BLACK);
+							}
+						}
+					}
+				}
+			}
+		});
+	}
+	
 	public void onReturnButtonClick(View view) {
 		if (LastMarkedLength != Modules.get(Marked).size()) {
 			LastMarkedLength = Modules.get(Marked).size();
@@ -543,43 +670,114 @@ public class MainActivity extends Activity {
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
-						String Link = news.Link.replace("http://", "https://");
-						Log.d("Open", Link);
-						Document doc = null;
-						try {
-							if (!Link.contains("http")) {
-								doc = Jsoup.parse(new File(Link), "UTF-8");
-							} else {
-								URLConnection conn = (new URL(Link)).openConnection();
-								conn.setConnectTimeout(5000);
-								conn.setReadTimeout(5000);
-								doc = Jsoup.parse(conn.getInputStream(), "ISO-8859-1", Link);
-							}
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-						String HTML = "<p>" + news.Title + "</p>";
-						if (doc == null) {
-							HTML += "<p>连接超时。</p>";
-						} else {
-							Pattern GetPattern = Pattern.compile("charset=\"(.+?)\"");
-							Matcher matcher = GetPattern.matcher(doc.html());
-							String CharSet = matcher.find() ? matcher.group(1) : null;
-							if (CharSet != null) {
+						final File NewsDirectory = new File(MainActivity.this.getExternalFilesDir(null), news.Title);
+						String HtmlText = "";
+						if (NewsDirectory.exists()) {
+							File NewsFile = new File(NewsDirectory, "index.htm");
+							if (NewsFile.exists()) {
 								try {
-									doc = Jsoup.parse(new String(doc.outerHtml().getBytes("ISO-8859-1"), CharSet));
-								} catch (UnsupportedEncodingException e) {
+									Scanner in = new Scanner(NewsFile);
+									while (in.hasNext()) {
+										HtmlText += in.nextLine();
+									}
+									in.close();
+								} catch (FileNotFoundException e) {
 									e.printStackTrace();
 								}
 							}
-							Elements CoreNews = doc.select("div#Cnt-Main-Article-QQ");
-							if (CoreNews.size() == 0) {
-								HTML += "<p>此内容已被删除。</p>";
-							} else {
-								HTML += CoreNews.html();
+						} else {
+							String Link = news.Link.replace("http://", "https://");
+							Log.d("Open", Link);
+							Document doc = null;
+							try {
+								if (!Link.contains("http")) {
+									doc = Jsoup.parse(new File(Link), "UTF-8");
+								} else {
+									URLConnection conn = (new URL(Link)).openConnection();
+									conn.setConnectTimeout(5000);
+									conn.setReadTimeout(5000);
+									doc = Jsoup.parse(conn.getInputStream(), "ISO-8859-1", Link);
+								}
+							} catch (IOException e) {
+								e.printStackTrace();
 							}
-						}
-						Elements HtmlItems = Jsoup.parse(HTML).select("p");
+							HtmlText = "<p><h1>" + news.Title + "</h1></p>";
+							if (doc == null) {
+								HtmlText += "<p>连接超时。</p>";
+							} else {
+								Pattern GetPattern = Pattern.compile("charset=\"(.+?)\"");
+								Matcher matcher = GetPattern.matcher(doc.html());
+								String CharSet = matcher.find() ? matcher.group(1) : null;
+								if (CharSet != null) {
+									try {
+										doc = Jsoup.parse(new String(doc.outerHtml().getBytes("ISO-8859-1"), CharSet));
+									} catch (UnsupportedEncodingException e) {
+										e.printStackTrace();
+									}
+								}
+								Elements CoreNews = doc.select("div#Cnt-Main-Article-QQ");
+								if (CoreNews.size() == 0) {
+									HtmlText += "<p>此内容已被删除。</p>";
+								} else {
+									HtmlText += CoreNews.html();
+								}
+							}
+							if (!NewsDirectory.exists()) {
+								NewsDirectory.mkdir();
+								File NewsFile = new File(NewsDirectory, "index.htm");
+								if (!NewsFile.exists()) {
+									try {
+										NewsFile.createNewFile();
+										FileOutputStream fos = new FileOutputStream(NewsFile);
+										String NewNews = "";
+										Matcher matcher = ImagePattern.matcher(HtmlText);
+										int startn = 0, endn = 0;
+										while (matcher.find(endn)) {
+											startn = matcher.start(1);
+											String OldImageName = HtmlText.substring(startn, matcher.end(3));
+											final String NewImageName = OldImageName.hashCode() + ".png";
+											if (OldImageName.startsWith("//")) {
+												OldImageName = "http:" + OldImageName;
+											}
+											final String PreImageName = OldImageName;
+											new Thread(new Runnable() {
+												@Override
+												public void run() {
+													URL sourceURL;
+													try {
+														sourceURL = new URL(PreImageName);
+														URLConnection urlConnection = sourceURL.openConnection();
+														urlConnection.setConnectTimeout(5000);
+														urlConnection.setReadTimeout(5000);
+														urlConnection.connect();
+														InputStream inputStream = urlConnection.getInputStream();
+														BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+														Bitmap bitmap = BitmapFactory.decodeStream(bufferedInputStream);
+														File ImageFile = new File(NewsDirectory, NewImageName);
+														if (!ImageFile.exists()) {
+															ImageFile.createNewFile();
+														}
+														FileOutputStream imageout = new FileOutputStream(ImageFile);
+														bitmap.compress(CompressFormat.PNG, 100, imageout);
+														imageout.close();
+													} catch (IOException e) {
+														e.printStackTrace();
+													}
+												}
+											}).start();
+											NewNews += HtmlText.substring(endn, startn) + NewsDirectory + "/" + NewImageName;
+											endn = matcher.end(3);
+										}
+										NewNews += HtmlText.substring(endn);
+										fos.write(NewNews.getBytes());
+										fos.close();
+									} catch (IOException e1) {
+										e1.printStackTrace();
+									}
+								}
+							}
+						}					
+						Elements HtmlItems = Jsoup.parse(HtmlText).select("p");
 						final ArrayList<String> Items = new ArrayList<String>();
 						for (int i = 0; i < HtmlItems.size(); ++ i) {
 							Items.add(HtmlItems.get(i).html());
@@ -616,11 +814,38 @@ public class MainActivity extends Activity {
 			Scanner in = new Scanner(HistoryFile);
 			while (in.hasNext()) {
 				String Title = in.nextLine();
-				Integer LargeGroup = in.hasNext() ? in.nextInt() : null;
-				Integer Group = in.hasNext() ? in.nextInt() : null;
+				Integer LargeGroup = in.hasNext() ? Integer.parseInt(in.nextLine()) : null;
+				Integer Group = in.hasNext() ? Integer.parseInt(in.nextLine()) : null;
 				if (LargeGroup != null && Group != null) {
 					History.add(new News(Title, "", "", "", LargeGroup, Group));
 				}
+			}
+			in.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	synchronized private void GetPoints() {
+		File PointsFile = new File(this.getExternalFilesDir(null), PointsFileName);
+		if (!PointsFile.exists()) {
+			try {
+				PointsFile.createNewFile();
+				FileOutputStream fos = new FileOutputStream(PointsFile);
+				for (int i = 0; i < Urls.length; ++ i) {
+					Points.add(Urls[i][0]);
+					fos.write((Urls[i][0] + "\n").getBytes());
+				}
+				fos.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		try {
+			Scanner in = new Scanner(PointsFile);
+			while (in.hasNext()) {
+				String Forum = in.nextLine();
+				Points.add(Forum);
 			}
 			in.close();
 		} catch (FileNotFoundException e) {
@@ -693,18 +918,20 @@ public class MainActivity extends Activity {
 			return NewsList;
 		}
 	}
-	
+	private Pattern ImagePattern = Pattern.compile("src=\"([^\\s]+/)([^\\s/\\.]+)(\\.[^\\s]+)\"");
 	private Pattern LinkPattern= Pattern.compile("<link>([^<>\\s]+)");
 	private HashMap<String,ArrayList<News> > Modules;
 	private Date NowTime;
 	private final String Marked = "Marked";
 	private final String MarkedFileName = "marked.txt";
 	private final String HistoryFileName = "history.txt";
+	private final String PointsFileName = "points.txt";
 	static final int NewsOnAPage = 8;
 	private boolean LoadFinished = false;
 	private ArrayList<News> ForumNews;
 	private ArrayList<News> VisibleNews;
 	private ArrayList<News> History;
+	private ArrayList<String> Points;
 	private NewsAdapter VisibleNewsAdapter;
 	private String LastVisitedForum = Marked;
 	private int LastMarkedLength = 0;
@@ -822,6 +1049,27 @@ public class MainActivity extends Activity {
 		}
 	}
 	
+	private void RefreshForums() {
+		for (int i = 0; i < Urls.length; ++ i) {
+			boolean InPoints = false;
+			for (String s : Points) {
+				if (Urls[i][0].equals(s)) {
+					InPoints = true;
+					break;
+				}
+			}
+			if (!InPoints) {
+				int Id = getButtonId(Urls[i][0]);
+				if (Id != 0) {
+					Button targetButton = (Button)findViewById(Id);
+					if (targetButton != null) {
+						targetButton.setVisibility(View.GONE);
+					}
+				}
+			}
+		}
+	}
+	
 	synchronized private void DetectLoadFinished(String ModuleName, ArrayList<News> ModuleNews) {
 		Modules.put(ModuleName, ModuleNews);
 		if (LoadFinished) {
@@ -855,6 +1103,47 @@ public class MainActivity extends Activity {
 		}
 	}
  	
+	
+	private int getPointButtonId(String name) {
+		if (name.equals("News")) {
+			return R.id.NewsPointButton;
+		} else if (name.equals("NewsYl")) {
+			return R.id.NewsYlPointButton;
+		} else if (name.equals("NewsCj")) {
+			return R.id.NewsCjPointButton;
+		} else if (name.equals("NewsTy")) {
+			return R.id.NewsTyPointButton;
+		} else if (name.equals("NewsKj")) {
+			return R.id.NewsKjPointButton;
+		} else if (name.equals("NewsYx")) {
+			return R.id.NewsYxPointButton;
+		} else if (name.equals("NewsJy")) {
+			return R.id.NewsJyPointButton;
+		} else {
+			return 0;
+		}
+	}
+	
+	private int getButtonId(String name) {
+		if (name.equals("News")) {
+			return R.id.NewsButton;
+		} else if (name.equals("NewsYl")) {
+			return R.id.NewsYlButton;
+		} else if (name.equals("NewsCj")) {
+			return R.id.NewsCjButton;
+		} else if (name.equals("NewsTy")) {
+			return R.id.NewsTyButton;
+		} else if (name.equals("NewsKj")) {
+			return R.id.NewsKjButton;
+		} else if (name.equals("NewsYx")) {
+			return R.id.NewsYxButton;
+		} else if (name.equals("NewsJy")) {
+			return R.id.NewsJyButton;
+		} else {
+			return 0;
+		}
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -862,6 +1151,7 @@ public class MainActivity extends Activity {
 		NowTime = new Date();
 		ForumNews = new ArrayList<News>();
 		VisibleNews = new ArrayList<News>();
+		Points = new ArrayList<String>();
 		VisibleNewsAdapter = null;
 		LoadFinished = false;
 		loaded = 0;
@@ -870,6 +1160,8 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		RefreshList();
 		GetHistory();
+		GetPoints();
+		RefreshForums();
 		ProcessMarked();
 		LastMarkedLength = Modules.get(Marked).size();
 		for (int i = 0; i < Urls.length; ++i) {

@@ -82,9 +82,16 @@ public class MyListView extends ListView implements android.widget.AdapterView.O
 						}
 					}
 					if (count == 0) {
-						TextView FootText = (TextView)findViewById(R.id.FootText);
+						Log.d("end", "footer");
+						final TextView FootText = (TextView)findViewById(R.id.FootText);
 						if (FootText != null) {
-							FootText.setText("没有更多内容了亲~");
+							MyHandler.post(new Runnable() {
+								@Override
+								public void run() {
+									Log.d("set", "footer");
+									FootText.setText("没有更多内容了亲~");
+								}
+							});
 							try {
 								Thread.sleep(500);
 							} catch (InterruptedException e) {
@@ -94,7 +101,9 @@ public class MyListView extends ListView implements android.widget.AdapterView.O
 								@Override
 								public void run() {
 									IsLoading = false;
+									Log.d("Remove", "footer");
 									removeFooterView(FootView);
+									Log.d("Remove2", "footer");
 								}
 							});
 						}

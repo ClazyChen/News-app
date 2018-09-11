@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">MyApplication</string>
+    <string name="app_name">陈智康_News</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     
@@ -23,5 +23,6 @@
     <string name="Returner">返回首页</string>
     <string name="Marker">设为收藏</string>
     <string name="DMarker">取消收藏</string>
+    <string name="Edit">编辑</string>
 
 </resources>

@@ -113,6 +113,13 @@
                     android:text="@string/NewsJy" 
                     android:onClick="onNewsButtonClick"
                     style="?android:attr/buttonBarButtonStyle"/>
+                <Button
+                    android:id="@+id/EditButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Edit" 
+                    android:onClick="onEditButtonClick"
+                    style="?android:attr/buttonBarButtonStyle"/>
 
             </LinearLayout>
         </HorizontalScrollView>
